@@ -105,11 +105,37 @@ class QuizGame:
         print("\n=== 퀴즈 결과 ===")
         print(f"총 {total}문제 중 {score}문제를 맞혔습니다.")
 
-    def add(self):
-        print("[Placeholder] Add 기능은 아직 구현되지 않았습니다.")
+    def add_quiz(self):
+        while True:
+            question = input("문제를 입력하세요: ").strip()
+            if question == "":
+                print("문제는 비워둘 수 없습니다. 다시 입력해 주세요.")
+                continue
+            break
 
-    def list_questions(self):
-        print("[Placeholder] List 기능은 아직 구현되지 않았습니다.")
+        choices: list[str] = []
+        for index in range(1, 5):
+            while True:
+                choice = input(f"선택지 {index}을(를) 입력하세요: ").strip()
+                if choice == "":
+                    print("선택지는 비워둘 수 없습니다. 다시 입력해 주세요.")
+                    continue
+                choices.append(choice)
+                break
+
+        answer = self.get_safe_int_input("정답 번호를 입력하세요 (1-4): ", 1, 4)
+
+        self.quizzes.append(Quiz(question, choices, answer))
+        print("퀴즈가 추가되었습니다.")
+
+    def list_quizzes(self):
+        if len(self.quizzes) == 0:
+            print("등록된 퀴즈가 없습니다.")
+            return
+
+        print("\n=== 퀴즈 목록 ===")
+        for index, quiz in enumerate(self.quizzes, start=1):
+            print(f"{index}. {quiz.question}")
 
     def score(self):
         print("[Placeholder] Score 기능은 아직 구현되지 않았습니다.")
@@ -123,9 +149,9 @@ class QuizGame:
                 if menu == 1:
                     self.play_quiz()
                 elif menu == 2:
-                    self.add()
+                    self.add_quiz()
                 elif menu == 3:
-                    self.list_questions()
+                    self.list_quizzes()
                 elif menu == 4:
                     self.score()
                 elif menu == 5:
