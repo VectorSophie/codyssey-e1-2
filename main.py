@@ -80,8 +80,30 @@ class QuizGame:
         print("4. Score")
         print("5. Exit")
 
-    def play(self):
-        print("[Placeholder] Play 기능은 아직 구현되지 않았습니다.")
+    def play_quiz(self):
+        if len(self.quizzes) == 0:
+            print("등록된 퀴즈가 없습니다.")
+            return
+
+        score = 0
+        total = len(self.quizzes)
+
+        for number, quiz in enumerate(self.quizzes, start=1):
+            print(f"\n[{number}/{total}]")
+            quiz.display()
+            user_answer = self.get_safe_int_input(
+                "정답 번호를 선택하세요 (1-4): ", 1, 4
+            )
+
+            if user_answer == quiz.answer:
+                score += 1
+                print("정답입니다!")
+            else:
+                correct_choice = quiz.choices[quiz.answer - 1]
+                print(f"오답입니다. 정답은 {quiz.answer}번 ({correct_choice}) 입니다.")
+
+        print("\n=== 퀴즈 결과 ===")
+        print(f"총 {total}문제 중 {score}문제를 맞혔습니다.")
 
     def add(self):
         print("[Placeholder] Add 기능은 아직 구현되지 않았습니다.")
@@ -99,7 +121,7 @@ class QuizGame:
                 menu = self.get_safe_int_input("메뉴를 선택하세요 (1-5): ", 1, 5)
 
                 if menu == 1:
-                    self.play()
+                    self.play_quiz()
                 elif menu == 2:
                     self.add()
                 elif menu == 3:
