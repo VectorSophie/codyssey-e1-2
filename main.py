@@ -1,6 +1,49 @@
+class Quiz:
+    def __init__(self, question: str, choices: list[str], answer: int):
+        if len(choices) != 4:
+            raise ValueError("choices must contain exactly 4 items")
+        if answer < 1 or answer > 4:
+            raise ValueError("answer must be between 1 and 4")
+
+        self.question: str = question
+        self.choices: list[str] = choices
+        self.answer: int = answer
+
+    def display(self):
+        print(self.question)
+        for index, choice in enumerate(self.choices, start=1):
+            print(f"{index}. {choice}")
+
+
 class QuizGame:
     def __init__(self):
-        pass
+        self.quizzes: list[Quiz] = [
+            Quiz(
+                "파이썬에서 리스트의 길이를 구하는 함수는 무엇인가요?",
+                ["count()", "size()", "len()", "length()"],
+                3,
+            ),
+            Quiz(
+                "다음 중 파이썬의 불리언 값이 아닌 것은 무엇인가요?",
+                ["True", "False", "None", "Bool"],
+                4,
+            ),
+            Quiz(
+                "파이썬에서 딕셔너리의 키-값 쌍을 순회할 때 주로 사용하는 메서드는?",
+                ["pairs()", "items()", "entries()", "values()"],
+                2,
+            ),
+            Quiz(
+                "객체 지향 프로그래밍에서 클래스의 인스턴스를 만들 때 사용하는 키워드는?",
+                ["class", "new", "create", "instance"],
+                2,
+            ),
+            Quiz(
+                "파이썬에서 예외를 처리하는 기본 구문은 무엇인가요?",
+                ["if/else", "switch/case", "try/except", "for/while"],
+                3,
+            ),
+        ]
 
     def get_safe_int_input(self, prompt: str, min_value: int, max_value: int) -> int:
         while True:
