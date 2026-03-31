@@ -53,3 +53,4 @@ python main.py
   - `choices` (string[4]): 4개의 선택지
   - `answer` (int): 정답 번호(1~4)
 - `best_score` (int): 현재까지 기록된 최고 점수
+- Git Clone/Pull test complete.
