@@ -1,3 +1,7 @@
+import json
+from typing import Any, cast
+
+
 class Quiz:
     def __init__(self, question: str, choices: list[str], answer: int):
         if len(choices) != 4:
@@ -17,7 +21,13 @@ class Quiz:
 
 class QuizGame:
     def __init__(self):
-        self.quizzes: list[Quiz] = [
+        self.state_file: str = "state.json"
+        self.quizzes: list[Quiz] = self.get_default_quizzes()
+        self.best_score: int = 0
+        self.load_data()
+
+    def get_default_quizzes(self) -> list[Quiz]:
+        return [
             Quiz(
                 "파이썬에서 리스트의 길이를 구하는 함수는 무엇인가요?",
                 ["count()", "size()", "len()", "length()"],
@@ -44,6 +54,79 @@ class QuizGame:
                 3,
             ),
         ]
+
+    def save_data(self):
+        data = {
+            "quizzes": [
+                {
+                    "question": quiz.question,
+                    "choices": quiz.choices,
+                    "answer": quiz.answer,
+                }
+                for quiz in self.quizzes
+            ],
+            "best_score": self.best_score,
+        }
+
+        with open(self.state_file, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=2)
+
+    def load_data(self):
+        try:
+            with open(self.state_file, "r", encoding="utf-8") as file:
+                raw_data: object = json.load(file)
+
+            if not isinstance(raw_data, dict):
+                raise ValueError
+
+            data = cast(dict[str, Any], raw_data)
+
+            quizzes_data_obj: Any = data["quizzes"]
+            if not isinstance(quizzes_data_obj, list):
+                raise ValueError
+
+            quizzes_data = cast(list[Any], quizzes_data_obj)
+            loaded_quizzes: list[Quiz] = []
+            for item_obj in quizzes_data:
+                if not isinstance(item_obj, dict):
+                    raise ValueError
+
+                item = cast(dict[str, Any], item_obj)
+                question_obj: Any = item.get("question")
+                choices_obj: Any = item.get("choices")
+                answer_obj: Any = item.get("answer")
+
+                if not isinstance(question_obj, str):
+                    raise ValueError
+                if not isinstance(choices_obj, list):
+                    raise ValueError
+                if len(choices_obj) != 4 or not all(
+                    isinstance(choice, str) for choice in choices_obj
+                ):
+                    raise ValueError
+                if not isinstance(answer_obj, int):
+                    raise ValueError
+
+                choices = cast(list[str], choices_obj)
+                loaded_quizzes.append(Quiz(question_obj, choices, answer_obj))
+
+            best_score_obj: Any = data["best_score"]
+            if not isinstance(best_score_obj, int) or best_score_obj < 0:
+                raise ValueError
+
+            self.quizzes = loaded_quizzes
+            self.best_score = best_score_obj
+        except (
+            FileNotFoundError,
+            json.JSONDecodeError,
+            OSError,
+            KeyError,
+            ValueError,
+            TypeError,
+        ):
+            self.quizzes = self.get_default_quizzes()
+            self.best_score = 0
+            self.save_data()
 
     def get_safe_int_input(self, prompt: str, min_value: int, max_value: int) -> int:
         while True:
@@ -105,6 +188,11 @@ class QuizGame:
         print("\n=== 퀴즈 결과 ===")
         print(f"총 {total}문제 중 {score}문제를 맞혔습니다.")
 
+        if score > self.best_score:
+            self.best_score = score
+            self.save_data()
+            print(f"최고 점수를 갱신했습니다! 현재 최고 점수: {self.best_score}")
+
     def add_quiz(self):
         while True:
             question = input("문제를 입력하세요: ").strip()
@@ -126,6 +214,7 @@ class QuizGame:
         answer = self.get_safe_int_input("정답 번호를 입력하세요 (1-4): ", 1, 4)
 
         self.quizzes.append(Quiz(question, choices, answer))
+        self.save_data()
         print("퀴즈가 추가되었습니다.")
 
     def list_quizzes(self):
@@ -137,8 +226,8 @@ class QuizGame:
         for index, quiz in enumerate(self.quizzes, start=1):
             print(f"{index}. {quiz.question}")
 
-    def score(self):
-        print("[Placeholder] Score 기능은 아직 구현되지 않았습니다.")
+    def check_best_score(self):
+        print(f"현재 최고 점수는 {self.best_score}점입니다.")
 
     def run(self):
         while True:
@@ -153,7 +242,7 @@ class QuizGame:
                 elif menu == 3:
                     self.list_quizzes()
                 elif menu == 4:
-                    self.score()
+                    self.check_best_score()
                 elif menu == 5:
                     print("게임을 종료합니다.")
                     break
