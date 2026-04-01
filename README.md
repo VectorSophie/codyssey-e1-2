@@ -4,9 +4,10 @@
 
 Python으로 만든 터미널 기반 퀴즈 게임입니다. 사용자는 메뉴를 통해 퀴즈를 풀고, 새 문제를 추가하고, 목록과 최고 점수를 확인할 수 있습니다.
 
-## Quiz Theme
+## Quiz Theme & Selection Reason
 
-현재 기본 퀴즈 테마는 **Programming / Python** 입니다.
+- **Theme**: Programming / Python
+- **Reason**: 프로그래밍을 배우는 첫 걸음인 만큼, 우리가 사용하는 Python 언어 자체에 대한 지식을 퀴즈로 풀며 기초를 다지기 위해 선정했습니다.
 
 ## Execution
 
@@ -53,4 +54,15 @@ python main.py
   - `choices` (string[4]): 4개의 선택지
   - `answer` (int): 정답 번호(1~4)
 - `best_score` (int): 현재까지 기록된 최고 점수
+
+## README 제출 체크리스트
+
+- [x] 프로젝트 개요 작성 완료
+- [x] 퀴즈 주제 선정 이유 작성 완료
+- [x] 실행 방법 (`python main.py`) 작성 완료
+- [x] 기능 목록(퀴즈 풀기/추가/목록/점수) 작성 완료
+- [x] 파일 구조 작성 완료
+- [x] 데이터 파일 설명(state.json 경로/역할/필드 구조) 작성 완료
+
+---
 - Git Clone/Pull test complete.
