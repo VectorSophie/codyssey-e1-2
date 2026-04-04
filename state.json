@@ -49,7 +49,17 @@
         "for/while"
       ],
       "answer": 3
+    },
+    {
+      "question": "이 의 개발자의 이름은?",
+      "choices": [
+        "김재동",
+        "백동재",
+        "강호동",
+        "나천재"
+      ],
+      "answer": 2
     }
   ],
-  "best_score": 3
+  "best_score": 4
 }
