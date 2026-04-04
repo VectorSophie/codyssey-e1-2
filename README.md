@@ -62,6 +62,7 @@ python main.py
 - 저장소를 별도 디렉터리에 `clone`한 다음 README를 수정하고 commit/push 했습니다.
 - 기존 작업 디렉터리에서 `pull`로 원격 변경사항을 다시 가져왔습니다.
 - 제출 시 `git log --oneline --graph --all` 결과 스크린샷으로 위 기록을 함께 확인할 수 있습니다.
+- 이 문장은 clone한 별도 로컬 저장소에서 추가한 확인용 변경 사항입니다.
 
 ## README 제출 체크리스트
 
