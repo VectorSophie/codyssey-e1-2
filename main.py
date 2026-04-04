@@ -26,6 +26,12 @@ class QuizGame:
         self.best_score: int = 0
         self.load_data()
 
+    def save_data_safely(self):
+        try:
+            self.save_data()
+        except OSError:
+            print("저장 중 오류가 발생했습니다. 현재 변경 사항을 파일에 기록하지 못했습니다.")
+
     def get_default_quizzes(self) -> list[Quiz]:
         return [
             Quiz(
@@ -124,9 +130,10 @@ class QuizGame:
             ValueError,
             TypeError,
         ):
+            print("저장된 데이터를 불러오지 못해 기본 퀴즈 데이터로 복구합니다.")
             self.quizzes = self.get_default_quizzes()
             self.best_score = 0
-            self.save_data()
+            self.save_data_safely()
 
     def get_safe_int_input(self, prompt: str, min_value: int, max_value: int) -> int:
         while True:
@@ -190,7 +197,7 @@ class QuizGame:
 
         if score > self.best_score:
             self.best_score = score
-            self.save_data()
+            self.save_data_safely()
             print(f"최고 점수를 갱신했습니다! 현재 최고 점수: {self.best_score}")
 
     def add_quiz(self):
@@ -214,7 +221,7 @@ class QuizGame:
         answer = self.get_safe_int_input("정답 번호를 입력하세요 (1-4): ", 1, 4)
 
         self.quizzes.append(Quiz(question, choices, answer))
-        self.save_data()
+        self.save_data_safely()
         print("퀴즈가 추가되었습니다.")
 
     def list_quizzes(self):
@@ -247,6 +254,7 @@ class QuizGame:
                     print("게임을 종료합니다.")
                     break
             except (KeyboardInterrupt, EOFError):
+                self.save_data_safely()
                 print("\n입력이 중단되어 프로그램을 안전하게 종료합니다.")
                 break
 
