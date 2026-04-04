@@ -6,8 +6,8 @@ Python으로 만든 터미널 기반 퀴즈 게임입니다. 사용자는 메뉴
 
 ## Quiz Theme & Selection Reason
 
-- **Theme**: Programming / Python
-- **Reason**: 프로그래밍을 배우는 첫 걸음인 만큼, 우리가 사용하는 Python 언어 자체에 대한 지식을 퀴즈로 풀며 기초를 다지기 위해 선정했습니다.
+- **테마**: Programming / Python
+- **이유**: 프로그래밍을 배우는만큼, 우리가 사용하는 Python에 대한 지식을 퀴즈로 풀며 기초를 다지기 위해 선정했습니다.
 
 ## Execution
 
@@ -51,9 +51,17 @@ python main.py
 
 - `quizzes`: 퀴즈 객체 배열
   - `question` (string): 문제 문장
-  - `choices` (string[4]): 4개의 선택지
-  - `answer` (int): 정답 번호(1~4)
+- `choices` (string[4]): 4개의 선택지
+- `answer` (int): 정답 번호(1~4)
 - `best_score` (int): 현재까지 기록된 최고 점수
+
+## Git Workflow Evidence
+
+- 기능 단위 커밋으로 작업 기록을 남겼습니다.
+- 별도 브랜치를 생성해 작업한 뒤 `main` 브랜치로 병합했습니다.
+- 저장소를 별도 디렉터리에 `clone`한 다음 README를 수정하고 commit/push 했습니다.
+- 기존 작업 디렉터리에서 `pull`로 원격 변경사항을 다시 가져왔습니다.
+- 제출 시 `git log --oneline --graph --all` 결과 스크린샷으로 위 기록을 함께 확인할 수 있습니다.
 
 ## README 제출 체크리스트
 
@@ -65,4 +73,4 @@ python main.py
 - [x] 데이터 파일 설명(state.json 경로/역할/필드 구조) 작성 완료
 
 ---
-- Git Clone/Pull test complete.
+- Git clone / pull workflow completed and documented.
